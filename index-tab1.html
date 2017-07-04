@@ -5,10 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" href="http://at.alicdn.com/t/font_h3bme4wg9xav2t9.css">
+  <link rel="stylesheet" href="http://at.alicdn.com/t/font_bjb8q1hm96b3mcxr.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
-  <link rel="stylesheet" href="css/listloading.min.css">
   <style>
     .app{padding-top:5rem;box-sizing:border-box;height:100%;}
     .tab{margin-top:-5rem;height:5rem;box-sizing:border-box;overflow-x:auto;white-space:nowrap;overflow-y:hidden;-webkit-overflow-scrolling:touch;position:relative;}
@@ -29,7 +28,7 @@
     .details.active{height:auto;padding:1rem;}
   </style>
 </head>
-<body>
+<body onload="loaded()">
   <div class="app">
     <div class="tab">
       <a href="#" class="active">节假日</a>
@@ -58,9 +57,16 @@
             赶快想想
           </p>
         </div>
-        <div class="swiper-slide" id="listloading">
+        <div class="swiper-slide pull-loading" id="loading">
+          <div class="pull-down">
+            <span class="ib w pd-10 bs t-c">
+              <i class="iconfont icon-down fs-16 c-9"></i>
+              <i class="fs-16 c-9">正在加载中...</i>
+            </span>
+          </div>
           <ul class="list">
           </ul>
+          <div class="pull-up"></div>
         </div>
         <div class="swiper-slide">3</div>
         <div class="swiper-slide">4</div>
@@ -70,9 +76,8 @@
     </div>
   </div>
   <script src="js/zepto.min.js"></script>
-  <script src="js/require.js"></script>
   <script src="js/swiper.min.js"></script>
-  
+  <script src="js/iscroll.js"></script>
   <script>
     var mySwiper = new Swiper('.swiper-container',{
       direction:'horizontal',
@@ -118,50 +123,36 @@
     }, {
       title: '致力于解决网站大部分特效展示问题',
       time: '2017-01-14'
+    }, {
+      title: '致力于解决网站大部分特效展示问题',
+      time: '2017-01-14'
+    }, {
+      title: '致力于解决网站大部分特效展示问题',
+      time: '2017-01-14'
+    }, {
+      title: '致力于解决网站大部分特效展示问题',
+      time: '2017-01-14'
+    }, {
+      title: '致力于解决网站大部分特效展示问题',
+      time: '2017-01-14'
     }]
     var createHtml =  function(){
       var news = ''
       data.map(function(el){
         news += '<li class="pl-10 pr-10 tap bs"><a href="#" class="block line pt-10 pb-10"><i class="fs-16 c-3 twoline mb-10">'+el.title+'</i><span class="block fs-14 c-9">'+el.time+'</span></a></li>'
       })
-      return news
+      $('.list').html(news)
     }
-    // 下拉刷新插件
-    var Listloading = require(['listloading']);
-    var m = 3, n = 0
-    var listloading = new Listloading('#listloading', {
-      disableTime: true,  // 是否需要显示时间
-      pullUpAction : function(cb){   // 上拉加载更多
-          m--;
-          var flg = false;
-          var __html = createHtml();
-          if(m < 1){
-              flg = true;
-          }else{
-              $('.list').append(__html);
-          }
-          // 数据加载完毕需要返回 end为true则为全部数据加载完毕
-          cb(flg);
-          
-      },
-      pullDownAction : function(cb){  // 下拉刷新
-          // true则为默认加载 false为下拉刷新
-          if (flg) {
-              console.log('默认加载');
-          }
-          m = 3;
-          var __html = createHtml();
-          $('#order-list').html(__html);
-          // 执行完执行方法之后必须执行回调 回调的作用是通知默认加载已经全部执行完毕，程序需要去创建iscroll或者做下拉刷新动作
-          cb();
-      },
-      // iscroll的API 
-      iscrollOptions: {
-          //
-      }
-  });
+    createHtml()
+    // 下拉刷新功能 下拉的事件怎么确定
+    var myScroll;
+    function loaded() {
+      var wrapper = document.getElementById('loading');
+      myScroll = new IScroll(wrapper)
+    }
+
+    
   </script>
-  <script src="js/iscroll.min.js"></script>
-  <script src="js/listloading.min.js"></script>
+  
 </body>
 </html>
